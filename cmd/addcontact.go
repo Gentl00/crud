@@ -31,7 +31,7 @@ func NewAddCmd(s Server) *cobra.Command{
 			}
 		email, err2 := cmd.Flags().GetBool("email")
 		errs = append(errs, err2)
-		contact, err3 := cmd.Flags().GetBool("contact")
+		contact, err3 := cmd.Flags().GetBool("phone")
 		errs = append(errs, err3)
 		if errs != nil {
 			fmt.Println(errs)
