@@ -75,6 +75,7 @@ func NewAddCmd(s Server) *cobra.Command{
 		}
 		},
 	}
+	addcontactCmd.Flags().Bool("firstname", false, "Add firstname")
 	addcontactCmd.Flags().Bool("email", false, "Add email")
 	addcontactCmd.Flags().Bool("phone", false, "Add phone number")
 	return addcontactCmd
