@@ -9,16 +9,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewRootCmd(s Server) *cobra.Command{
+func NewRootCmd(s Server) *cobra.Command {
 	// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "crud",
-	Short: "Contact Diary",
-	Long: `CLI tool for storing and managing contacts with basic 
+	var rootCmd = &cobra.Command{
+		Use:   "crud",
+		Short: "Contact Diary",
+		Long: `CLI tool for storing and managing contacts with basic 
 	CRUD operations.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+		// Uncomment the following line if your bare application
+		// has an action associated with it:
+		// Run: func(cmd *cobra.Command, args []string) { },
 	}
 	rootCmd.AddCommand(NewAddCmd(s))
 	rootCmd.AddCommand(NewListCmd(s))
@@ -28,14 +28,10 @@ var rootCmd = &cobra.Command{
 	return rootCmd
 }
 
-
-
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 
-
-
-type Server interface{
+type Server interface {
 	AddName(ctx context.Context, name string) error
 	AddFirstName(ctx context.Context, firstname string) error
 	AddMail(ctx context.Context, email string) error

@@ -6,11 +6,11 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type ConfigDB struct{
+type ConfigDB struct {
 	config *pgxpool.Config
 }
 
-func (cdb *ConfigDB) EnvConfig() (config *pgxpool.Config, err error){
+func (cdb *ConfigDB) EnvConfig() (config *pgxpool.Config, err error) {
 	cdb.config, err = pgxpool.ParseConfig("")
 	cdb.config.ConnConfig.Host = os.Getenv("DB_HOST")
 	cdb.config.ConnConfig.User = os.Getenv("DB_USER")

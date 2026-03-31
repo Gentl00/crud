@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"log"
 
-
 	"github.com/joho/godotenv"
 )
 

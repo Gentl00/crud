@@ -6,9 +6,10 @@ import (
 	"crud/internal/ui"
 	"strings"
 )
+
 type Contact any
 
-type ContactStorer interface{
+type ContactStorer interface {
 	AddContactName(ctx context.Context, name string) error
 	UpdateEmail(ctx context.Context, id int, email string) error
 	UpdateContact(ctx context.Context, id int, contact string) error
@@ -22,13 +23,13 @@ type ContactService struct {
 	store ContactStorer
 }
 
-func NewContactService(store ContactStorer) *ContactService{
+func NewContactService(store ContactStorer) *ContactService {
 	return &ContactService{
 		store: store,
 	}
 }
 
-func (cs *ContactService) AddName(ctx context.Context, name string) error{
+func (cs *ContactService) AddName(ctx context.Context, name string) error {
 	err := cs.store.AddContactName(ctx, name)
 	if err != nil {
 		return err
@@ -36,9 +37,9 @@ func (cs *ContactService) AddName(ctx context.Context, name string) error{
 	return nil
 }
 
-func (cs *ContactService) AddFirstName(ctx context.Context, firstname string) error{
+func (cs *ContactService) AddFirstName(ctx context.Context, firstname string) error {
 	contacts, err := cs.store.ListContact(ctx)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	id := contacts[len(contacts)-1].ID
@@ -48,9 +49,9 @@ func (cs *ContactService) AddFirstName(ctx context.Context, firstname string) er
 	return nil
 }
 
-func (cs *ContactService) AddMail(ctx context.Context, email string) error{
+func (cs *ContactService) AddMail(ctx context.Context, email string) error {
 	contacts, err := cs.store.ListContact(ctx)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	id := contacts[len(contacts)-1].ID
@@ -60,9 +61,9 @@ func (cs *ContactService) AddMail(ctx context.Context, email string) error{
 	return nil
 }
 
-func (cs *ContactService) AddPhone(ctx context.Context, phone string) error{
+func (cs *ContactService) AddPhone(ctx context.Context, phone string) error {
 	contacts, err := cs.store.ListContact(ctx)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	id := contacts[len(contacts)-1].ID
@@ -72,7 +73,7 @@ func (cs *ContactService) AddPhone(ctx context.Context, phone string) error{
 	return nil
 }
 
-func (cs *ContactService) Delete(ctx context.Context, id int) error{
+func (cs *ContactService) Delete(ctx context.Context, id int) error {
 	err := cs.store.DeleteContact(ctx, id)
 	if err != nil {
 		return err
@@ -80,7 +81,7 @@ func (cs *ContactService) Delete(ctx context.Context, id int) error{
 	return nil
 }
 
-func (cs *ContactService) UpdateEmail(ctx context.Context, id int, email string) error{
+func (cs *ContactService) UpdateEmail(ctx context.Context, id int, email string) error {
 	err := cs.store.UpdateEmail(ctx, id, email)
 	if err != nil {
 		return err
@@ -88,7 +89,7 @@ func (cs *ContactService) UpdateEmail(ctx context.Context, id int, email string)
 	return nil
 }
 
-func (cs *ContactService) UpdateContact(ctx context.Context, id int, contact string) error{
+func (cs *ContactService) UpdateContact(ctx context.Context, id int, contact string) error {
 	err := cs.store.UpdateContact(ctx, id, contact)
 	if err != nil {
 		return err
@@ -96,7 +97,7 @@ func (cs *ContactService) UpdateContact(ctx context.Context, id int, contact str
 	return nil
 }
 
-func (cs *ContactService) UpdateName(ctx context.Context, id int, name string) error{
+func (cs *ContactService) UpdateName(ctx context.Context, id int, name string) error {
 	err := cs.store.UpdateName(ctx, id, name)
 	if err != nil {
 		return err
@@ -104,7 +105,7 @@ func (cs *ContactService) UpdateName(ctx context.Context, id int, name string) e
 	return nil
 }
 
-func (cs *ContactService) UpdateFirstName(ctx context.Context, id int, firstname string) error{
+func (cs *ContactService) UpdateFirstName(ctx context.Context, id int, firstname string) error {
 	err := cs.store.UpdateFirstName(ctx, id, firstname)
 	if err != nil {
 		return err
@@ -112,7 +113,7 @@ func (cs *ContactService) UpdateFirstName(ctx context.Context, id int, firstname
 	return nil
 }
 
-func (cs *ContactService) List(ctx context.Context) error{
+func (cs *ContactService) List(ctx context.Context) error {
 	contacts, err := cs.store.ListContact(ctx)
 	if err != nil {
 		return err
@@ -123,18 +124,18 @@ func (cs *ContactService) List(ctx context.Context) error{
 	return nil
 }
 
-func search(i int, name string, contacts []storage.ContactDTO, cont []storage.ContactDTO) ([]storage.ContactDTO, error){
+func search(i int, name string, contacts []storage.ContactDTO, cont []storage.ContactDTO) ([]storage.ContactDTO, error) {
 	if i == len(contacts) {
 		return cont, nil
 	}
-	if strings.Contains(strings.ToLower(contacts[i].Nom), strings.ToLower(name)){
+	if strings.Contains(strings.ToLower(contacts[i].Nom), strings.ToLower(name)) {
 		cont = append(cont, contacts[i])
 	}
 	i++
 	return search(i, name, contacts, cont)
 }
 
-func (cs *ContactService) ListSearch(ctx context.Context, name string) error{
+func (cs *ContactService) ListSearch(ctx context.Context, name string) error {
 	contacts, err := cs.store.ListContact(ctx)
 	if err != nil {
 		return err
