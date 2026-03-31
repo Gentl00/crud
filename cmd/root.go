@@ -24,6 +24,7 @@ var rootCmd = &cobra.Command{
 	rootCmd.AddCommand(NewListCmd(s))
 	rootCmd.AddCommand(NewSearchCmd(s))
 	rootCmd.AddCommand(NewUpdateCmd(s))
+	rootCmd.AddCommand(NewDeleteCmd(s))
 	return rootCmd
 }
 
@@ -39,6 +40,7 @@ type Server interface{
 	AddFirstName(ctx context.Context, firstname string) error
 	AddMail(ctx context.Context, email string) error
 	AddPhone(ctx context.Context, phone string) error
+	Delete(ctx context.Context, id int) error
 	UpdateName(ctx context.Context, id int, name string) error
 	UpdateFirstName(ctx context.Context, id int, firstname string) error
 	UpdateEmail(ctx context.Context, id int, email string) error

@@ -77,7 +77,7 @@ func (s *Storage) CreateTable(ctx context.Context) error{
 	CREATE TABLE IF NOT EXISTS contacts  (
 	id SERIAL PRIMARY KEY,
 	nom TEXT NOT NULL,
-	prénom TEXT ,
+	prénom TEXT,
 	email TEXT,
 	contact TEXT);
 	`

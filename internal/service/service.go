@@ -42,7 +42,7 @@ func (cs *ContactService) AddFirstName(ctx context.Context, firstname string) er
 		return err
 	}
 	id := contacts[len(contacts)-1].ID
-	if err := cs.UpdateFirstName(ctx, id, firstname); err != nil {
+	if err := cs.store.UpdateFirstName(ctx, id, firstname); err != nil {
 		return err
 	}
 	return nil

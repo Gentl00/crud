@@ -11,7 +11,7 @@ import (
 	"crud/internal/storage"
 	"fmt"
 	"log"
-	"os"
+
 
 	"github.com/joho/godotenv"
 )
@@ -26,10 +26,6 @@ func main() {
 	repo := storage.NewStorage(&conf)
 	if err := repo.NewPool(ctx); err != nil {
 		log.Fatal(err)
-	}
-	if len(os.Args) < 3 {
-		fmt.Println("Veuillez remplir le dernier champ")
-		return
 	}
 	serv := service.NewContactService(repo)
 	rootCmd := cmd.NewRootCmd(serv)

@@ -38,6 +38,10 @@ func NewSearchCmd(s Server) *cobra.Command{
 	to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
+		if len(args) == 0 {
+			fmt.Println("Veuillez fournir le nom")
+			return 
+		}
 		err := s.ListSearch(ctx, args[0])
 		if err != nil {
 			fmt.Println(err)
