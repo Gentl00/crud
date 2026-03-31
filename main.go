@@ -6,7 +6,7 @@ package main
 import (
 	"context"
 	"crud/cmd"
-	"crud/internal/config"
+	"crud/configs/config"
 	"crud/internal/service"
 	"crud/internal/storage"
 	"fmt"
