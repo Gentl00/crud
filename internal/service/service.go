@@ -9,10 +9,11 @@ import (
 type Contact any
 
 type ContactStorer interface{
-	AddContactName(ctx context.Context, name string, lastname string) error
+	AddContactName(ctx context.Context, name string) error
 	UpdateEmail(ctx context.Context, id int, email string) error
 	UpdateContact(ctx context.Context, id int, contact string) error
-	UpdateName(ctx context.Context, id int, name string, lastname string) error
+	UpdateName(ctx context.Context, id int, name string) error
+	UpdateFirstName(ctx context.Context, id int, firstname string) error
 	DeleteContact(ctx context.Context, id int) error
 	ListContact(ctx context.Context) ([]storage.ContactDTO, error)
 }
@@ -27,9 +28,45 @@ func NewContactService(store ContactStorer) *ContactService{
 	}
 }
 
-func (cs *ContactService) AddName(ctx context.Context, name string, lastname string) error{
-	err := cs.store.AddContactName(ctx, name, lastname)
+func (cs *ContactService) AddName(ctx context.Context, name string) error{
+	err := cs.store.AddContactName(ctx, name)
 	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (cs *ContactService) AddFirstName(ctx context.Context, firstname string) error{
+	contacts, err := cs.store.ListContact(ctx)
+	if err != nil{
+		return err
+	}
+	id := contacts[len(contacts)-1].ID
+	if err := cs.UpdateFirstName(ctx, id, firstname); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (cs *ContactService) AddMail(ctx context.Context, email string) error{
+	contacts, err := cs.store.ListContact(ctx)
+	if err != nil{
+		return err
+	}
+	id := contacts[len(contacts)-1].ID
+	if err := cs.UpdateEmail(ctx, id, email); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (cs *ContactService) AddPhone(ctx context.Context, phone string) error{
+	contacts, err := cs.store.ListContact(ctx)
+	if err != nil{
+		return err
+	}
+	id := contacts[len(contacts)-1].ID
+	if err := cs.UpdateContact(ctx, id, phone); err != nil {
 		return err
 	}
 	return nil
@@ -59,8 +96,16 @@ func (cs *ContactService) UpdateContact(ctx context.Context, id int, contact str
 	return nil
 }
 
-func (cs *ContactService) UpdateName(ctx context.Context, id int, name string, lastname string) error{
-	err := cs.store.UpdateName(ctx, id, name, lastname)
+func (cs *ContactService) UpdateName(ctx context.Context, id int, name string) error{
+	err := cs.store.UpdateName(ctx, id, name)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (cs *ContactService) UpdateFirstName(ctx context.Context, id int, firstname string) error{
+	err := cs.store.UpdateFirstName(ctx, id, firstname)
 	if err != nil {
 		return err
 	}

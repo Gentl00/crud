@@ -13,13 +13,9 @@ func NewRootCmd(s Server) *cobra.Command{
 	// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "crud",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-	examples and usage of using your application. For example:
-
-	Cobra is a CLI library for Go that empowers applications.
-	This application is a tool to generate the needed files
-	to quickly create a Cobra application.`,
+	Short: "Contact Diary",
+	Long: `CLI tool for storing and managing contacts with basic 
+	CRUD operations.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -27,6 +23,7 @@ var rootCmd = &cobra.Command{
 	rootCmd.AddCommand(NewAddCmd(s))
 	rootCmd.AddCommand(NewListCmd(s))
 	rootCmd.AddCommand(NewSearchCmd(s))
+	rootCmd.AddCommand(NewUpdateCmd(s))
 	return rootCmd
 }
 
@@ -38,8 +35,12 @@ var rootCmd = &cobra.Command{
 
 
 type Server interface{
-	AddName(ctx context.Context, name string, lastname string) error
-	UpdateName(ctx context.Context, id int, name string, lastname string) error
+	AddName(ctx context.Context, name string) error
+	AddFirstName(ctx context.Context, firstname string) error
+	AddMail(ctx context.Context, email string) error
+	AddPhone(ctx context.Context, phone string) error
+	UpdateName(ctx context.Context, id int, name string) error
+	UpdateFirstName(ctx context.Context, id int, firstname string) error
 	UpdateEmail(ctx context.Context, id int, email string) error
 	UpdateContact(ctx context.Context, id int, contact string) error
 	List(ctx context.Context) error

@@ -85,10 +85,11 @@ func (s *Storage) CreateTable(ctx context.Context) error{
 	return err
 }
 
-func (s *Storage) AddContactName(ctx context.Context, name string, lastname string) error{
-	_, err := s.pool.Exec(ctx, "INSERT INTO contacts (nom, prénom) VALUES ($1, $2)", name, lastname)
+func (s *Storage) AddContactName(ctx context.Context, name string) error{
+	_, err := s.pool.Exec(ctx, "INSERT INTO contacts (nom) VALUES ($1)", name)
 	return err
 }
+
 
 func (s *Storage) UpdateEmail(ctx context.Context, id int, email string) error{
 	query := `
@@ -106,14 +107,29 @@ func (s *Storage) UpdateEmail(ctx context.Context, id int, email string) error{
 	return nil
 }
 
-func (s *Storage) UpdateName(ctx context.Context, id int, name string, lastname string) error{
+func (s *Storage) UpdateName(ctx context.Context, id int, name string) error{
 	query := `
 	UPDATE contacts
 	SET nom = $1
-	SET prénom = $2
-	WHERE id = $3;
+	WHERE id = $2;
 	`
-	cmTag, err := s.pool.Exec(ctx, query, name, lastname, id)
+	cmTag, err := s.pool.Exec(ctx, query, name, id)
+	if err != nil {
+		return err
+	}
+	if cmTag.RowsAffected() == 0 {
+		return fmt.Errorf("aucun contact avec l'id %d", id)
+	}
+	return nil
+}
+
+func (s *Storage) UpdateFirstName(ctx context.Context, id int, firstname string) error{
+	query := `
+	UPDATE contacts
+	SET prénom = $1
+	WHERE id = $2;
+	`
+	cmTag, err := s.pool.Exec(ctx, query, firstname, id)
 	if err != nil {
 		return err
 	}
